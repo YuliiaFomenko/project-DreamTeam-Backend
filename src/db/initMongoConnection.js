@@ -8,7 +8,7 @@ export const initMongoConnection = async () => {
   const url = getEnvVar(ENV_VARS.MONGODB_URL);
   const db = getEnvVar(ENV_VARS.MONGODB_DB);
 
-  const uri = `mongodb+srv://${user}:${password}@${url}/${db}?retryWrites=true&w=majority&appName=Cluster0`;
+  const uri = `mongodb+srv://${user}:${password}@${url}/${db}?retryWrites=true&w=majority&appName=Cluster3`;
 
   try {
     await mongoose.connect(uri);
