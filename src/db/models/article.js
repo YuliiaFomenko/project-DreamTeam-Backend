@@ -1,5 +1,4 @@
 import { model, Schema } from 'mongoose';
-import { User } from './user.js';
 
 
 const articleSchema = new Schema(
@@ -8,7 +7,7 @@ const articleSchema = new Schema(
     description: { type: String, required: true },
     imageUrl: { type: String, required: true },
     date: { type: Date, required: true },
-    author: { type: Schema.Types.ObjectId, ref: User, required: true },
+    author: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   },
   {
     timestamps: true,
