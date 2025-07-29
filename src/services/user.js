@@ -1,9 +1,13 @@
+import createHttpError from 'http-errors';
 import { Users } from '../db/models/user.js';
-import { createPaginationMetaData } from '../utils/createPaginationMetaData.js';
+import { Articles } from '../db/models/article.js';
+import { createPaginationMetaData } from '../utils/pagination.js';
 
+// =============================================================================
+// Top authors =================================================================
 export const getTopAuthors = async (queryParams) => {
   const { page, perPage } = queryParams;
-  const topAuthorsQuery = Users.aggregate([
+  const result = await Users.aggregate([
     {
       $lookup: {
         from: 'Articles', // collection to join
@@ -20,37 +24,113 @@ export const getTopAuthors = async (queryParams) => {
     {
       $sort: { articlesAmount: -1 }, // sort by articlesAmount descending
     },
-    // Optionally, project only needed fields:
     {
       $project: {
-        articles: 0, // exclude articles array if you don't need it
+        articles: 0, // exclude articles array since we don't need it
+      },
+    },
+    {
+      $match: {
+        articlesAmount: { $gt: 0 }, // only users with articles
+      },
+    },
+    {
+      $facet: {
+        data: [{ $skip: (page - 1) * perPage }, { $limit: perPage }],
+        totalCount: [{ $count: 'count' }],
       },
     },
   ]);
+  const topAuthors = result[0].data;
+  const queryCount = result[0].totalCount[0]?.count || 0;
+  // No users found:
+  if (queryCount === 0)
+    throw createHttpError(404, 'No users found matching the query');
 
-  const paginationData = createPaginationMetaData(
-    page,
-    perPage,
-    topAuthorsQueryCount,
-  );
-  // No contacts found
-  if (queryCount === 0) {
-    throw createHttpError(404, 'No contacts found matching the query');
-  }
-
-  const topAuthors = await topAuthorsQuery
-    .skip((page - 1) * perPage)
-    .limit(perPage)
-    .sort({ [sortBy]: sortOrder })
-    .exec();
-
+  const paginationData = createPaginationMetaData(page, perPage, queryCount);
   return {
     data: topAuthors,
     ...paginationData,
   };
 };
-
+// =============================================================================
+// User by ID =================================================================
 export const getUserById = async (userId) => {
-  // Logic to fetch user by ID from the database
-  // This is a placeholder function, replace with actual implementation
+  const user = await Users.findOne({ _id: userId });
+  if (!user) throw createHttpError(404, `User with ID:${userId} was not found`);
+  return user;
+};
+// =============================================================================
+// Articles, created by user(_id => ownerId) ===============================
+export const getUserArticles = async (userId, queryParams) => {
+  const { page, perPage } = queryParams;
+  const articlesQuery = Articles.find({ ownerId: userId });
+
+  const articlesCount = await Articles.countDocuments({
+    ownerId: userId,
+  });
+  if (articlesCount === 0)
+    throw createHttpError(404, 'No articles found for user with ID:' + userId);
+
+  const paginationData = createPaginationMetaData(page, perPage, articlesCount);
+  const articles = await articlesQuery
+    .skip((page - 1) * perPage)
+    .limit(perPage)
+    .exec();
+
+  return {
+    data: articles,
+    ...paginationData,
+  };
+};
+// =============================================================================
+// Bookmarks for currently logged in user ===============================
+export const getUserBookmarks = async (userId, queryParams) => {
+  const user = await Users.findOne({ _id: userId }).populate('savedArticles');
+  if (!user) throw createHttpError(404, 'User not found');
+  if (!Array.isArray(user.savedArticles) || user.savedArticles.length === 0)
+    throw createHttpError(404, 'No bookmarks found for logged in user');
+
+  const { page, perPage } = queryParams;
+  const paginationData = createPaginationMetaData(
+    page,
+    perPage,
+    user.savedArticles.length,
+  );
+  const start = (paginationData.page - 1) * paginationData.perPage;
+  const end = start + paginationData.perPage;
+  const paginatedArticles = user.savedArticles.slice(start, end);
+
+  return {
+    data: paginatedArticles,
+    ...paginationData,
+  };
+};
+// =============================================================================
+// Add bookmark for currently logged in user ===============================
+export const addUserBookmark = async (userId, articleId) => {
+  const user = await Users.findOne({ _id: userId });
+  if (!user) throw createHttpError(404, 'User not found');
+  // Use .toString() for robust comparison (ObjectId vs string)
+  const alreadyBookmarked = user.savedArticles.some(
+    (id) => id.toString() === articleId.toString(),
+  );
+  if (alreadyBookmarked) return user;
+  const updatedUser = await Users.findOneAndUpdate(
+    { _id: userId },
+    { $push: { savedArticles: articleId } },
+    { new: true },
+  );
+  return updatedUser;
+};
+// =============================================================================
+// Remove bookmark for currently logged in user ===============================
+export const removeUserBookmark = async (userId, articleId) => {
+  const updatedUser = await Users.findOneAndUpdate(
+    { _id: userId },
+    { $pull: { savedArticles: articleId } },
+    { new: true },
+  );
+  if (!updatedUser) throw createHttpError(404, 'User not found');
+  return updatedUser;
 };
