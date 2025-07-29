@@ -4,10 +4,9 @@ const articleSchema = new Schema(
   {
     img: { type: String, required: true },
     title: { type: String, required: true },
-    desc: { type: String, required: true },
     article: { type: String, required: true },
     rate: { type: Number, default: 0 },
-    ownerId: { type: Schema.Types.ObjectId, ref: 'Users', required: true },
+    ownerId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     date: { type: Date, required: true },
   },
   {
@@ -17,4 +16,4 @@ const articleSchema = new Schema(
   },
 );
 
-export const Articles = model('article', articleSchema);
+export const Article = model('article', articleSchema);

@@ -49,3 +49,10 @@ export const parseSortParams = (query) => {
     sortBy: parseSortBy(query.sortBy),
   };
 };
+
+export const parsePaginationParams = (query) => {
+  return {
+    page: parseNumber(query.page, 1),
+    perPage: parseNumber(query.perPage, 10),
+  };
+};
