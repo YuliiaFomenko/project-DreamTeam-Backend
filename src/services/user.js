@@ -1,6 +1,6 @@
 import createHttpError from 'http-errors';
 import { Users } from '../db/models/user.js';
-import { Articles } from '../db/models/article.js';
+import { Article } from '../db/models/article.js';
 import { createPaginationMetaData } from '../utils/pagination.js';
 
 // =============================================================================
@@ -64,9 +64,9 @@ export const getUserById = async (userId) => {
 // Articles, created by user(_id => ownerId) ===============================
 export const getUserArticles = async (userId, queryParams) => {
   const { page, perPage } = queryParams;
-  const articlesQuery = Articles.find({ ownerId: userId });
+  const articlesQuery = Article.find({ ownerId: userId });
 
-  const articlesCount = await Articles.countDocuments({
+  const articlesCount = await Article.countDocuments({
     ownerId: userId,
   });
   if (articlesCount === 0)
