@@ -10,7 +10,7 @@ const userSchema = new Schema(
       default:
         'https://res.cloudinary.com/dbau4robp/image/upload/v1752140574/default-avatar_rfwfl3.png',
     },
-    savedArticles: [{ type: Schema.Types.ObjectId, ref: 'Articles' }],
+    savedArticles: [{ type: Schema.Types.ObjectId, ref: 'article' }],
   },
   {
     timestamps: true,
