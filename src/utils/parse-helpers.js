@@ -1,8 +1,8 @@
-import { CONTACT_TYPES } from "../constants/contactTypes.js";
+import { CONTACT_TYPES } from '../constants/contactTypes.js';
 
 const parseNumber = (value, defaultValue) => {
   const parsed = Number.parseInt(value);
-  if(Number.isNaN(parsed)){
+  if (Number.isNaN(parsed)) {
     return defaultValue;
   }
 
@@ -10,14 +10,14 @@ const parseNumber = (value, defaultValue) => {
 };
 
 const parseSortOrder = (value) => {
-  if (['asc', 'desc'].includes(value)){
+  if (['asc', 'desc'].includes(value)) {
     return value;
   }
   return 'asc';
 };
 
 const parseSortBy = (value) => {
-  if (['name'].includes(value)){
+  if (['name'].includes(value)) {
     return value;
   }
 
@@ -31,7 +31,7 @@ const parseType = (value) => {
 };
 
 const parseBoolean = (value) => {
-  if (['true', 'false'].includes(value)){
+  if (['true', 'false'].includes(value)) {
     return JSON.parse(value);
   }
 };
