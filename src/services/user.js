@@ -109,6 +109,12 @@ export const getUserBookmarks = async (userId, queryParams) => {
 // =============================================================================
 // Add bookmark for currently logged in user ===============================
 export const addUserBookmark = async (userId, articleId) => {
+  // Check if article exists and increment its rate
+  const article = await Article.findByIdAndUpdate(articleId, {
+    $inc: { rate: 1 },
+  });
+  if (!article) throw createHttpError(404, 'Article not found');
+  // If article exists, proceed with updating User
   const user = await Users.findOne({ _id: userId });
   if (!user) throw createHttpError(404, 'User not found');
   // Use .toString() for robust comparison (ObjectId vs string)
@@ -126,6 +132,14 @@ export const addUserBookmark = async (userId, articleId) => {
 // =============================================================================
 // Remove bookmark for currently logged in user ===============================
 export const removeUserBookmark = async (userId, articleId) => {
+  // Try to decrement article rate but do not fall below zero
+  const article = await Article.findById(articleId);
+  if (!article) throw createHttpError(404, 'Article not found');
+  if (article.rate > 0)
+    await Article.findByIdAndUpdate(articleId, {
+      $inc: { rate: -1 },
+    });
+  // Proceed with updating User
   const updatedUser = await Users.findOneAndUpdate(
     { _id: userId },
     { $pull: { savedArticles: articleId } },
