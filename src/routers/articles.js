@@ -28,7 +28,7 @@ articleRouter.post(
   validateBody(createArticleSchema),
   createArticleController,
 );
-articleRouter.put(
+articleRouter.patch(
   '/articles/:articleId',
   isValidId('articleId'),
   authenticate,

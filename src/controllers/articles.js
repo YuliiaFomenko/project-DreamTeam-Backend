@@ -49,7 +49,7 @@ export const getArticleByIdController = async (req, res, next) => {
 
     res.json({
       status: 200,
-      message: `Successfully fpund article with id ${articleId}`,
+      message: `Successfully found article with id ${articleId}`,
       data: article,
     });
   } catch (err) {
@@ -59,7 +59,7 @@ export const getArticleByIdController = async (req, res, next) => {
 
 export const createArticleController = async (req, res, next) => {
   try {
-    const { title, desc, date: dateString } = req.body;
+    const { title, article, date: dateString } = req.body;
 
     if (!req.file) {
       return res.status(400).json({
@@ -73,7 +73,7 @@ export const createArticleController = async (req, res, next) => {
 
     const newArticle = await createArticle({
       title,
-      desc,
+      article,
       img,
       date,
       rate: 0,
