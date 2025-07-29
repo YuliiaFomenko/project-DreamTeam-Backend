@@ -15,3 +15,8 @@ export const ENV_VARS = {
 
   FILE_SAVING_STRATEGY: 'FILE_SAVING_STRATEGY',
 };
+
+export const SORT_ORDER = {
+  ASC: 'asc',
+  DESC: 'desc',
+};

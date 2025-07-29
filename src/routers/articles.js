@@ -1,7 +1,44 @@
 import { Router } from 'express';
+import {
+  getAllArticlesController,
+  getArticleByIdController,
+  createArticleController,
+  patchArticleController,
+  deleteArticleController,
+} from '../controllers/articles.js';
+import { validateBody } from '../middlewares/validateBody.js';
+import { createArticleSchema } from '../validation/createArticleValidationSchema.js';
+import { authenticate } from '../middlewares/authenticate.js';
+import { isValidId } from '../middlewares/isValidId.js';
+import { upload } from '../middlewares/uploadFiles.js';
 
 const articleRouter = Router();
 
+articleRouter.get('/articles', getAllArticlesController);
+articleRouter.get(
+  '/articles/:articleId',
+  isValidId('articleId'),
+  getArticleByIdController,
+);
 
+articleRouter.post(
+  '/articles',
+  authenticate,
+  upload.single('image'),
+  validateBody(createArticleSchema),
+  createArticleController,
+);
+articleRouter.put(
+  '/articles/:articleId',
+  isValidId('articleId'),
+  authenticate,
+  patchArticleController,
+);
+articleRouter.delete(
+  '/articles/:articleId',
+  isValidId('articleId'),
+  authenticate,
+  deleteArticleController,
+);
 
 export default articleRouter;

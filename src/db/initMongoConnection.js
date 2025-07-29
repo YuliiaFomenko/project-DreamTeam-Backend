@@ -12,9 +12,8 @@ export const initMongoConnection = async () => {
 
   try {
     await mongoose.connect(uri);
-    await mongoose.connection.db.admin().command({ping: 1});
+    await mongoose.connection.db.admin().command({ ping: 1 });
     console.log('Mongo connection successfully established!');
-    
   } catch (error) {
     console.error(error);
     process.exit(1);
