@@ -12,34 +12,35 @@ export const getAllArticles = async ({
   const limit = perPage;
   const skip = (page - 1) * perPage;
 
-  const articlesQuery = Article.find();
+  const baseQuery = Article.find();
   if (filter.minRate) {
-    articlesQuery.where('rate').gte(filter.minRate);
+    baseQuery.where('rate').gte(filter.minRate);
   }
 
   if (filter.maxRate) {
-    articlesQuery.where('rate').lte(filter.maxRate);
+    baseQuery.where('rate').lte(filter.maxRate);
   }
 
   if (filter.ownerId) {
-    articlesQuery.where('ownerId').equals(filter.ownerId);
+    baseQuery.where('ownerId').equals(filter.ownerId);
   }
 
   if (filter.title) {
-    articlesQuery.where('title').regex(new RegExp(filter.title, 'i'));
+    baseQuery.where('title').regex(new RegExp(filter.title, 'i'));
   }
 
   if (filter.dateFrom) {
-    articlesQuery.where('date').gte(filter.dateFrom);
+    baseQuery.where('date').gte(filter.dateFrom);
   }
 
   if (filter.dateTo) {
-    articlesQuery.where('date').lte(filter.dateTo);
+    baseQuery.where('date').lte(filter.dateTo);
   }
 
   const [articlesCount, articles] = await Promise.all([
-    Article.find().merge(articlesQuery).countDocuments(),
-    articlesQuery
+    Article.find().merge(baseQuery).countDocuments(),
+    Article.find()
+      .merge(baseQuery)
       .skip(skip)
       .limit(limit)
       .sort({ [sortBy]: sortOrder })
