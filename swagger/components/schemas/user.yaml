@@ -14,10 +14,6 @@ properties:
     description: "User's email address"
     type: string
     example: 'martha.smith@mail.com'
-  password:
-    description: "User's encrypted password"
-    type: string
-    example: '$2b$10$8y6NyU.9T9d0xrthrhYUYFvtTFdkal/G0kfm'
   savedArticles:
     description: 'List of saved articles IDs'
     type: array

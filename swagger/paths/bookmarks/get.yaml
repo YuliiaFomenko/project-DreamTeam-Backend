@@ -1,0 +1,80 @@
+tags:
+  - User
+summary: Get all saved articles.
+operationId: getBookmarks
+description: Populate all currently logged-in user's bookmarks
+  from articles collection with pagination option.
+security:
+  - bearerAuth: []
+parameters:
+  - in: query
+    name: page
+    description: Page number for pagination.
+    required: false
+    schema:
+      type: integer
+      default: 1
+  - in: query
+    name: perPage
+    description: Number of contacts per page.
+    required: false
+    schema:
+      type: integer
+      default: 12
+responses:
+  '200':
+    description: Successfully found contacts!
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - status
+            - message
+            - data
+          properties:
+            status:
+              type: integer
+              example: 200
+            message:
+              type: string
+              example: 'Successfully found bookmarks for logged in user!'
+            data:
+              type: object
+              required:
+                - data
+                - page
+                - perPage
+                - totalItems
+                - totalPages
+                - hasNextPage
+                - hasPreviousPage
+              properties:
+                data:
+                  type: array
+                  items:
+                    $ref: ../../components/schemas/article.yaml
+                page:
+                  type: number
+                  example: 2
+                perPage:
+                  type: number
+                  example: 4
+                totalItems:
+                  type: number
+                  example: 4
+                totalPages:
+                  type: number
+                  example: 4
+                hasNextPage:
+                  type: boolean
+                  example: false
+                hasPreviousPage:
+                  type: boolean
+                  example: true
+  '401':
+    $ref: '../../components/responses/401.yaml'
+  '404':
+    $ref: '../../components/responses/404.yaml'
+  '500':
+    $ref: '../../components/responses/500.yaml'

@@ -14,9 +14,9 @@ tags:
   - name: Articles
     description: Operations with articles.
 servers:
-  - url: http://localhost:3008
   - url: https://project-dreamteam-backend.onrender.com
 paths:
+  # Authentication
   /auth/register:
     post:
       $ref: ../swagger/paths/auth/register/post.yaml
@@ -29,6 +29,25 @@ paths:
   /auth/logout:
     post:
       $ref: ../swagger/paths/auth/logout/post.yaml
+  # User operations
+  /top-authors:
+    get:
+      $ref: ../swagger/paths/top-authors/get.yaml
+  /users/{userId}:
+    get:
+      $ref: ../swagger/paths/users/{userId}/get.yaml
+  /users/{userId}/articles:
+    get:
+      $ref: ../swagger/paths/users/{userId}/articles/get.yaml
+  /bookmarks:
+    get:
+      $ref: ../swagger/paths/bookmarks/get.yaml
+  /bookmarks/add/{articleId}:
+    patch:
+      $ref: ../swagger/paths/bookmarks/add/{articleId}/patch.yaml
+  /bookmarks/remove/{articleId}:
+    patch:
+      $ref: ../swagger/paths/bookmarks/remove/{articleId}/patch.yaml
 components:
   securitySchemes:
     bearerAuth:

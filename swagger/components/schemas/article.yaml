@@ -1,0 +1,30 @@
+type: object
+required:
+  - img
+  - title
+  - article
+  - rate
+  - ownerId
+  - date
+properties:
+  img:
+    type: string
+    format: uri
+    example: https://res.cloudinary.com/uqwgdu/image/upload/image.png
+  title:
+    type: string
+    example: 'My first article'
+  article:
+    type: string
+    example: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+      Donec a diam lectus. Sed sit amet ipsum mauris.'
+  rate:
+    type: number
+    example: '10'
+  ownerId:
+    type: string
+    example: '64f3c53dbb38c0d30ff87b49'
+  date:
+    type: string
+    format: date
+    example: '2024-08-23'
