@@ -1,0 +1,77 @@
+tags:
+  - User
+summary: Get top authors.
+operationId: getTopAuthors
+description: Retrieve a list of users who have at least one
+  article written sorted by articlesAmount descending.
+security: []
+parameters:
+  - in: query
+    name: page
+    description: Page number for pagination.
+    required: false
+    schema:
+      type: integer
+      default: 1
+  - in: query
+    name: perPage
+    description: Number of contacts per page.
+    required: false
+    schema:
+      type: integer
+      default: 12
+responses:
+  '200':
+    description: Successfully found top authors.
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - status
+            - message
+            - data
+          properties:
+            status:
+              type: integer
+              example: 200
+            message:
+              type: string
+              example: 'Successfully found authors!'
+            data:
+              type: object
+              required:
+                - data
+                - page
+                - perPage
+                - totalItems
+                - totalPages
+                - hasNextPage
+                - hasPreviousPage
+              properties:
+                data:
+                  type: array
+                  items:
+                    $ref: ../../components/schemas/user.yaml
+                page:
+                  type: number
+                  example: 2
+                perPage:
+                  type: number
+                  example: 4
+                totalItems:
+                  type: number
+                  example: 4
+                totalPages:
+                  type: number
+                  example: 4
+                hasNextPage:
+                  type: boolean
+                  example: false
+                hasPreviousPage:
+                  type: boolean
+                  example: true
+  '404':
+    $ref: '../../components/responses/404.yaml'
+  '500':
+    $ref: '../../components/responses/500.yaml'

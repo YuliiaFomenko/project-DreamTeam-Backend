@@ -11,9 +11,6 @@
   },
   "servers": [
     {
-      "url": "http://localhost:3000"
-    },
-    {
       "url": "https://project-dreamteam-backend.onrender.com"
     }
   ],
@@ -32,6 +29,739 @@
     }
   ],
   "paths": {
+    "/auth/register": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Register a new user.",
+        "operationId": "authRegister",
+        "description": "Registers a new user with the provided details.",
+        "security": [],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": ["name", "email", "password"],
+                "properties": {
+                  "name": {
+                    "description": "User's name.",
+                    "type": "string",
+                    "example": "Martha Smith"
+                  },
+                  "email": {
+                    "description": "User's email address.",
+                    "type": "string",
+                    "example": "martha.smith@mail.com"
+                  },
+                  "password": {
+                    "description": "Password for the new user.",
+                    "type": "string",
+                    "example": "securePassword123"
+                  },
+                  "avatar": {
+                    "description": "User's avatar picture.",
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Registered a new user successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["status", "message", "data"],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 201
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully registered!"
+                    },
+                    "data": {
+                      "type": "object",
+                      "$ref": "#/components/schemas/user"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Log in a user.",
+        "operationId": "authLogin",
+        "description": "Logs in a user and returns an access token.",
+        "security": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "description": "User's email.",
+                    "type": "string",
+                    "example": "martha_smith@gmail.com"
+                  },
+                  "password": {
+                    "description": "User's password.",
+                    "type": "string",
+                    "example": "password123"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully logs in a user.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["status", "message", "data"],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully logged in!"
+                    },
+                    "data": {
+                      "type": "object",
+                      "required": ["accessToken", "currentUserId"],
+                      "properties": {
+                        "accessToken": {
+                          "type": "string",
+                          "example": "U21wdOfyoytZ8NY+E+A+Uz+4gbkMbkMn/LdBDgKo"
+                        },
+                        "currentUserId": {
+                          "type": "string",
+                          "example": "65e4decdd286b30065d54af9"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/auth/refresh": {
+      "get": {
+        "tags": ["Auth"],
+        "summary": "Refresh user's session.",
+        "operationId": "authRefresh",
+        "description": "Refreshes the user's session by generating a new access token.",
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "Successfully refreshed user's session.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["status", "message", "data"],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully refreshed a session!"
+                    },
+                    "data": {
+                      "type": "object",
+                      "required": ["accessToken", "currentUserId"],
+                      "properties": {
+                        "accessToken": {
+                          "type": "string",
+                          "example": "U21wdOfyoytZ8NY+E+A+Uz+4gbkMbkMn/LdBDgKo"
+                        },
+                        "currentUserId": {
+                          "type": "string",
+                          "example": "65e4decdd286b30065d54af9"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/auth/logout": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Log out a user.",
+        "operationId": "authLogout",
+        "description": "Logs out a user.",
+        "security": [],
+        "responses": {
+          "204": {
+            "description": "Successfully logs out a user."
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/top-authors": {
+      "get": {
+        "tags": ["User"],
+        "summary": "Get top authors.",
+        "operationId": "getTopAuthors",
+        "description": "Retrieve a list of users who have at least one article written sorted by articlesAmount descending.",
+        "security": [],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Page number for pagination.",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "in": "query",
+            "name": "perPage",
+            "description": "Number of contacts per page.",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 12
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully found top authors.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["status", "message", "data"],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully found authors!"
+                    },
+                    "data": {
+                      "type": "object",
+                      "required": [
+                        "data",
+                        "page",
+                        "perPage",
+                        "totalItems",
+                        "totalPages",
+                        "hasNextPage",
+                        "hasPreviousPage"
+                      ],
+                      "properties": {
+                        "data": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/user"
+                          }
+                        },
+                        "page": {
+                          "type": "number",
+                          "example": 2
+                        },
+                        "perPage": {
+                          "type": "number",
+                          "example": 4
+                        },
+                        "totalItems": {
+                          "type": "number",
+                          "example": 4
+                        },
+                        "totalPages": {
+                          "type": "number",
+                          "example": 4
+                        },
+                        "hasNextPage": {
+                          "type": "boolean",
+                          "example": false
+                        },
+                        "hasPreviousPage": {
+                          "type": "boolean",
+                          "example": true
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/users/{userId}": {
+      "get": {
+        "tags": ["User"],
+        "summary": "Get user by ID.",
+        "operationId": "getUserById",
+        "description": "Retrieve a user by their unique ID.",
+        "security": [],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "required": true,
+            "description": "Unique identifier of the user.",
+            "schema": {
+              "type": "string",
+              "example": "65e4decdd286b30065d54af9"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully found user by ID.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["status", "message", "data"],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully found user with ID:6881563901add19ee16fd002 !"
+                    },
+                    "data": {
+                      "type": "object",
+                      "$ref": "#/components/schemas/user"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/users/{userId}/articles": {
+      "get": {
+        "tags": ["User"],
+        "summary": "Get all user's articles.",
+        "operationId": "getUserArticles",
+        "description": "Retrieve a list of articles written by a specific user.",
+        "security": [],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "required": true,
+            "description": "The ID of the user whose articles are being retrieved.",
+            "schema": {
+              "type": "string",
+              "example": "65e4decdd286b30065d54af9"
+            }
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Page number for pagination.",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "in": "query",
+            "name": "perPage",
+            "description": "Number of contacts per page.",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 12
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully found user's articles.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["status", "message", "data"],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully found articles for user with ID:6881563901add19ee16fd002!"
+                    },
+                    "data": {
+                      "type": "object",
+                      "required": [
+                        "data",
+                        "page",
+                        "perPage",
+                        "totalItems",
+                        "totalPages",
+                        "hasNextPage",
+                        "hasPreviousPage"
+                      ],
+                      "properties": {
+                        "data": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/articles"
+                          }
+                        },
+                        "page": {
+                          "type": "number",
+                          "example": 2
+                        },
+                        "perPage": {
+                          "type": "number",
+                          "example": 4
+                        },
+                        "totalItems": {
+                          "type": "number",
+                          "example": 4
+                        },
+                        "totalPages": {
+                          "type": "number",
+                          "example": 4
+                        },
+                        "hasNextPage": {
+                          "type": "boolean",
+                          "example": false
+                        },
+                        "hasPreviousPage": {
+                          "type": "boolean",
+                          "example": true
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/bookmarks": {
+      "get": {
+        "tags": ["User"],
+        "summary": "Get all saved articles.",
+        "operationId": "getBookmarks",
+        "description": "Populate all currently logged-in user's bookmarks from articles collection with pagination option.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Page number for pagination.",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "in": "query",
+            "name": "perPage",
+            "description": "Number of contacts per page.",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 12
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully found contacts!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["status", "message", "data"],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully found bookmarks for logged in user!"
+                    },
+                    "data": {
+                      "type": "object",
+                      "required": [
+                        "data",
+                        "page",
+                        "perPage",
+                        "totalItems",
+                        "totalPages",
+                        "hasNextPage",
+                        "hasPreviousPage"
+                      ],
+                      "properties": {
+                        "data": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/articles"
+                          }
+                        },
+                        "page": {
+                          "type": "number",
+                          "example": 2
+                        },
+                        "perPage": {
+                          "type": "number",
+                          "example": 4
+                        },
+                        "totalItems": {
+                          "type": "number",
+                          "example": 4
+                        },
+                        "totalPages": {
+                          "type": "number",
+                          "example": 4
+                        },
+                        "hasNextPage": {
+                          "type": "boolean",
+                          "example": false
+                        },
+                        "hasPreviousPage": {
+                          "type": "boolean",
+                          "example": true
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/bookmarks/add/{articleId}": {
+      "patch": {
+        "tags": ["User"],
+        "summary": "Add the article to \"saved\".",
+        "operationId": "addBookmark",
+        "description": "Adds an article to the user's bookmarks and increments article's rate.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "articleId",
+            "required": true,
+            "description": "ID of the article to save.",
+            "schema": {
+              "type": "string",
+              "example": "65e4decdd286b30065d54af9"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Updated a user's bookmarks successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["status", "message", "data"],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully updated!"
+                    },
+                    "data": {
+                      "type": "object",
+                      "$ref": "#/components/schemas/user"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/bookmarks/remove/{articleId}": {
+      "patch": {
+        "tags": ["User"],
+        "summary": "Remove the article from \"saved\".",
+        "operationId": "removeBookmark",
+        "description": "Removes an article from the user's bookmarks and decrements article's rate.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "articleId",
+            "required": true,
+            "description": "ID of the article to save.",
+            "schema": {
+              "type": "string",
+              "example": "65e4decdd286b30065d54af9"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Updated a user's bookmarks successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["status", "message", "data"],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully updated!"
+                    },
+                    "data": {
+                      "type": "object",
+                      "$ref": "#/components/schemas/user"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
     "/articles": {
       "get": {
         "tags": ["Articles"],
@@ -481,6 +1211,40 @@
       }
     },
     "schemas": {
+      "user": {
+        "type": "object",
+        "required": ["name", "email", "avatarUrl", "savedArticles", "_id"],
+        "properties": {
+          "name": {
+            "description": "User's name",
+            "type": "string",
+            "example": "Martha Smith"
+          },
+          "email": {
+            "description": "User's email address",
+            "type": "string",
+            "example": "martha.smith@mail.com"
+          },
+          "savedArticles": {
+            "description": "List of saved articles IDs",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "example": "65e4decdd286b30065d54af9"
+            }
+          },
+          "avatarUrl": {
+            "description": "User's avatar URL",
+            "type": "string",
+            "example": "https://res.cloudinary.com/uqwgdu/image/upload/image.png"
+          },
+          "_id": {
+            "description": "User's database ID",
+            "type": "string",
+            "example": "65e4decdd286b30065d54af9"
+          }
+        }
+      },
       "articles": {
         "type": "object",
         "required": ["img", "title", "article", "rate", "ownerId", "date"],
@@ -516,7 +1280,7 @@
     },
     "responses": {
       "400": {
-        "description": "Bad Request",
+        "description": "Bad request response.",
         "content": {
           "application/json": {
             "schema": {
@@ -529,14 +1293,15 @@
                 },
                 "message": {
                   "type": "string",
-                  "example": "Required field is missing or invalid"
+                  "example": "HTTP error occurred"
                 },
                 "data": {
                   "type": "object",
+                  "required": ["errorMessage"],
                   "properties": {
                     "errorMessage": {
                       "type": "string",
-                      "example": "Validation failed: 'title' is required"
+                      "description": "Detailed error message."
                     }
                   }
                 }
@@ -546,7 +1311,7 @@
         }
       },
       "401": {
-        "description": "Unauthorized error",
+        "description": "Unauthorized error.",
         "content": {
           "application/json": {
             "schema": {
@@ -559,15 +1324,15 @@
                 },
                 "message": {
                   "type": "string",
-                  "example": "UnauthorizedError"
+                  "example": "HTTP error occurred"
                 },
                 "data": {
                   "type": "object",
-                  "required": ["message"],
+                  "required": ["errorMessage"],
                   "properties": {
-                    "message": {
+                    "errorMessage": {
                       "type": "string",
-                      "example": "Access token expired"
+                      "description": "Detailed error message."
                     }
                   }
                 }
@@ -577,7 +1342,7 @@
         }
       },
       "404": {
-        "description": "Not found",
+        "description": "Not found response.",
         "content": {
           "application/json": {
             "schema": {
@@ -590,15 +1355,46 @@
                 },
                 "message": {
                   "type": "string",
-                  "example": "Not found"
+                  "example": "HTTP error occurred"
                 },
                 "data": {
                   "type": "object",
-                  "required": ["message"],
+                  "required": ["errorMessage"],
                   "properties": {
-                    "message": {
+                    "errorMessage": {
                       "type": "string",
-                      "example": "Not found"
+                      "description": "Detailed error message."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "409": {
+        "description": "Conflict response.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": ["status", "message", "data"],
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 409
+                },
+                "message": {
+                  "type": "string",
+                  "example": "HTTP error occurred"
+                },
+                "data": {
+                  "type": "object",
+                  "required": ["errorMessage"],
+                  "properties": {
+                    "errorMessage": {
+                      "type": "string",
+                      "description": "Detailed error message."
                     }
                   }
                 }
@@ -608,7 +1404,7 @@
         }
       },
       "500": {
-        "description": "Internal Server Error",
+        "description": "Server error.",
         "content": {
           "application/json": {
             "schema": {
@@ -625,10 +1421,11 @@
                 },
                 "data": {
                   "type": "object",
+                  "required": ["errorMessage"],
                   "properties": {
                     "errorMessage": {
                       "type": "string",
-                      "example": "MongoDB error occurred"
+                      "description": "Detailed error message."
                     }
                   }
                 }
