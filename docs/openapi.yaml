@@ -5,8 +5,7 @@ info:
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
-  description: 
-    This is a documentation of Harmoniq API
+  description: This is a documentation of Harmoniq API
 tags:
   - name: User
     description: User operations.
@@ -15,9 +14,54 @@ tags:
   - name: Articles
     description: Operations with articles.
 servers:
-  - url: http://localhost:3000
-  - url: https://contactsapp-9n3j.onrender.com
-# paths:
+  - url: http://localhost:3008
+  - url: https://project-dreamteam-backend.onrender.com
+paths:
+  # Authentication
+  /auth/register:
+    post:
+      $ref: ../swagger/paths/auth/register/post.yaml
+  /auth/login:
+    post:
+      $ref: ../swagger/paths/auth/login/post.yaml
+  /auth/refresh:
+    get:
+      $ref: ../swagger/paths/auth/refresh/get.yaml
+  /auth/logout:
+    post:
+      $ref: ../swagger/paths/auth/logout/post.yaml
+  # User operations
+  /top-authors:
+    get:
+      $ref: ../swagger/paths/top-authors/get.yaml
+  /users/{userId}:
+    get:
+      $ref: ../swagger/paths/users/{userId}/get.yaml
+  /users/{userId}/articles:
+    get:
+      $ref: ../swagger/paths/users/{userId}/articles/get.yaml
+  /bookmarks:
+    get:
+      $ref: ../swagger/paths/bookmarks/get.yaml
+  /bookmarks/add/{articleId}:
+    patch:
+      $ref: ../swagger/paths/bookmarks/add/{articleId}/patch.yaml
+  /bookmarks/remove/{articleId}:
+    patch:
+      $ref: ../swagger/paths/bookmarks/remove/{articleId}/patch.yaml
+  # Articles operations
+  /articles:
+    get:
+      $ref: ../swagger/paths/articles/get.yaml
+    post:
+      $ref: ../swagger/paths/articles/post.yaml
+  /articles/{id}:
+    get:
+      $ref: ../swagger/paths/articles/{id}/get.yaml
+    patch:
+      $ref: ../swagger/paths/articles/{id}/patch.yaml
+    delete:
+      $ref: ../swagger/paths/articles/{id}/delete.yaml
 components:
   securitySchemes:
     bearerAuth:
