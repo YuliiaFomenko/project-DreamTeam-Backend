@@ -14,7 +14,6 @@ tags:
   - name: Articles
     description: Operations with articles.
 servers:
-  - url: http://localhost:3008
   - url: https://project-dreamteam-backend.onrender.com
 paths:
   # Authentication

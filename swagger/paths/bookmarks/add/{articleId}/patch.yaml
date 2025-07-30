@@ -1,0 +1,45 @@
+tags:
+  - User
+summary: Add the article to "saved".
+operationId: addBookmark
+description: Adds an article to the user's bookmarks and increments
+  article's rate.
+security:
+  - bearerAuth: []
+parameters:
+  - in: path
+    name: articleId
+    required: true
+    description: ID of the article to save.
+    schema:
+      type: string
+      example: '65e4decdd286b30065d54af9'
+responses:
+  '200':
+    description: Updated a user's bookmarks successfully.
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - status
+            - message
+            - data
+          properties:
+            status:
+              type: integer
+              example: 200
+            message:
+              type: string
+              example: 'Successfully updated!'
+            data:
+              type: object
+              $ref: ../../../../components/schemas/user.yaml
+  '400':
+    $ref: ../../../../components/responses/400.yaml
+  '401':
+    $ref: ../../../../components/responses/401.yaml
+  '404':
+    $ref: ../../../../components/responses/404.yaml
+  '500':
+    $ref: ../../../../components/responses/500.yaml
