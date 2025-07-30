@@ -5,8 +5,7 @@ info:
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
-  description: 
-    This is a documentation of Harmoniq API
+  description: This is a documentation of Harmoniq API
 tags:
   - name: User
     description: User operations.
@@ -15,9 +14,21 @@ tags:
   - name: Articles
     description: Operations with articles.
 servers:
-  - url: http://localhost:3000
-  - url: https://contactsapp-9n3j.onrender.com
-# paths:
+  - url: http://localhost:3008
+  - url: https://project-dreamteam-backend.onrender.com
+paths:
+  /auth/register:
+    post:
+      $ref: ../swagger/paths/auth/register/post.yaml
+  /auth/login:
+    post:
+      $ref: ../swagger/paths/auth/login/post.yaml
+  /auth/refresh:
+    get:
+      $ref: ../swagger/paths/auth/refresh/get.yaml
+  /auth/logout:
+    post:
+      $ref: ../swagger/paths/auth/logout/post.yaml
 components:
   securitySchemes:
     bearerAuth:

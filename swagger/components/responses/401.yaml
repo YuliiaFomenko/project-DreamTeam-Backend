@@ -1,4 +1,4 @@
-description: Unauthorized error
+description: Unauthorized error.
 content:
   application/json:
     schema:
@@ -13,12 +13,12 @@ content:
           example: 401
         message:
           type: string
-          example: UnauthorizedError
+          example: 'HTTP error occurred'
         data:
           type: object
           required:
-            - message
+            - errorMessage
           properties:
-            message:
+            errorMessage:
               type: string
-              example: 'Access token expired'
+              description: Detailed error message.
