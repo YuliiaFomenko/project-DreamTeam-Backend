@@ -11,6 +11,12 @@
   },
   "servers": [
     {
+<<<<<<< HEAD
+=======
+      "url": "http://localhost:3000"
+    },
+    {
+>>>>>>> main
       "url": "https://project-dreamteam-backend.onrender.com"
     }
   ],
@@ -29,6 +35,7 @@
     }
   ],
   "paths": {
+<<<<<<< HEAD
     "/auth/register": {
       "post": {
         "tags": [
@@ -39,10 +46,179 @@
         "description": "Registers a new user with the provided details.",
         "security": [],
         "requestBody": {
+=======
+    "/articles": {
+      "get": {
+        "tags": ["Articles"],
+        "summary": "Get list of articles",
+        "operationId": "getAllArticles",
+        "description": "Retrieve a paginated list of articles with optional filters",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "schema": {
+              "type": "integer"
+            },
+            "example": 1,
+            "description": "Page number for pagination."
+          },
+          {
+            "in": "query",
+            "name": "perPage",
+            "schema": {
+              "type": "integer"
+            },
+            "example": 12,
+            "description": "Number of articles per page."
+          },
+          {
+            "in": "query",
+            "name": "sortBy",
+            "schema": {
+              "type": "string"
+            },
+            "example": "_id",
+            "description": "Field to sort by."
+          },
+          {
+            "in": "query",
+            "name": "sortOrder",
+            "schema": {
+              "type": "string",
+              "enum": ["asc", "desc"]
+            },
+            "example": "asc"
+          },
+          {
+            "in": "query",
+            "name": "minRate",
+            "schema": {
+              "type": "number"
+            },
+            "example": 3,
+            "description": "Minimum rating to filter by."
+          },
+          {
+            "in": "query",
+            "name": "maxRate",
+            "schema": {
+              "type": "number"
+            },
+            "example": 9,
+            "description": "Maximum rating to filter by."
+          },
+          {
+            "in": "query",
+            "name": "ownerId",
+            "schema": {
+              "type": "string"
+            },
+            "example": "64f3c53dbb38c0d30ff87b49",
+            "description": "ID of the article owner."
+          },
+          {
+            "in": "query",
+            "name": "title",
+            "schema": {
+              "type": "string"
+            },
+            "example": "My first article",
+            "description": "Filter by partial match in the title."
+          },
+          {
+            "in": "query",
+            "name": "dateFrom",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            },
+            "example": "2024-01-01",
+            "description": "Start date to filter articles from."
+          },
+          {
+            "in": "query",
+            "name": "dateTo",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            },
+            "example": "2024-12-31",
+            "description": "End date to filter articles to."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved articles list!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["status", "message", "data"],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Articles found successfully!"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/articles"
+                      }
+                    },
+                    "totalPages": {
+                      "type": "integer",
+                      "example": 5
+                    },
+                    "currentPage": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "perPage": {
+                      "type": "integer",
+                      "example": 10
+                    },
+                    "totalCount": {
+                      "type": "integer",
+                      "example": 40
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Articles"],
+        "summary": "Create a new article",
+        "operationId": "createArticle",
+        "description": "Create a new article",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+>>>>>>> main
           "content": {
             "multipart/form-data": {
               "schema": {
                 "type": "object",
+<<<<<<< HEAD
                 "required": [
                   "name",
                   "email",
@@ -66,6 +242,158 @@
                   },
                   "avatar": {
                     "description": "User's avatar picture.",
+=======
+                "required": ["img", "title", "article", "date"],
+                "properties": {
+                  "img": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "Image file to be uploaded"
+                  },
+                  "title": {
+                    "type": "string",
+                    "example": "My first article"
+                  },
+                  "article": {
+                    "type": "string",
+                    "example": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris."
+                  },
+                  "date": {
+                    "type": "string",
+                    "format": "date",
+                    "example": "2025-07-29"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successfully created an article!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["status", "message", "data"],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 201
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully created an article!"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/articles"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          }
+        }
+      }
+    },
+    "/articles/{id}": {
+      "get": {
+        "tags": ["Articles"],
+        "summary": "Get article by id",
+        "operationId": "getArticleById",
+        "description": "Get article by id",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The ID of the article to retrieve."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully found an article!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["status", "message", "data"],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully found an article!"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/articles"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        }
+      },
+      "patch": {
+        "tags": ["Articles"],
+        "summary": "Update an article by ID",
+        "operationId": "updateArticle",
+        "description": "Update fields of an existing contact",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The ID of the article to update"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "example": "My article"
+                  },
+                  "article": {
+                    "type": "string",
+                    "example": "Full article content"
+                  },
+                  "date": {
+                    "type": "string",
+                    "format": "date",
+                    "example": "2025-07-29"
+                  },
+                  "image": {
+>>>>>>> main
                     "type": "string",
                     "format": "binary"
                   }
@@ -75,6 +403,7 @@
           }
         },
         "responses": {
+<<<<<<< HEAD
           "201": {
             "description": "Registered a new user successfully.",
             "content": {
@@ -146,15 +475,23 @@
         "responses": {
           "200": {
             "description": "Successfully logs in a user.",
+=======
+          "200": {
+            "description": "Article updated successfully",
+>>>>>>> main
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
+<<<<<<< HEAD
                   "required": [
                     "status",
                     "message",
                     "data"
                   ],
+=======
+                  "required": ["status", "message", "data"],
+>>>>>>> main
                   "properties": {
                     "status": {
                       "type": "integer",
@@ -162,17 +499,63 @@
                     },
                     "message": {
                       "type": "string",
+<<<<<<< HEAD
                       "example": "Successfully logged in!"
+=======
+                      "example": "Contact updated successfully."
+>>>>>>> main
                     },
                     "data": {
                       "type": "object",
                       "required": [
+<<<<<<< HEAD
                         "accessToken"
                       ],
                       "properties": {
                         "accessToken": {
                           "type": "string",
                           "example": "U21wdOfyoytZ8NY+E+A+Uz+4gbkMbkMn/LdBDgKo"
+=======
+                        "_id",
+                        "img",
+                        "title",
+                        "article",
+                        "rate",
+                        "ownerId",
+                        "date"
+                      ],
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "format": "uuid",
+                          "example": "60c72b2f9b1e8a5f8c8e6d45"
+                        },
+                        "img": {
+                          "type": "string",
+                          "example": "https://res.cloudinary.com/demo/image/upload/v1623743883/sample.jpg"
+                        },
+                        "title": {
+                          "type": "string",
+                          "example": "Updated title"
+                        },
+                        "article": {
+                          "type": "string",
+                          "example": "Full updated content"
+                        },
+                        "rate": {
+                          "type": "number",
+                          "example": 0
+                        },
+                        "ownerId": {
+                          "type": "string",
+                          "format": "uuid",
+                          "example": "60c72b2f9b1e8a5f8c8e6d22"
+                        },
+                        "date": {
+                          "type": "string",
+                          "format": "date",
+                          "example": "2025-07-29"
+>>>>>>> main
                         }
                       }
                     }
@@ -181,13 +564,26 @@
               }
             }
           },
+<<<<<<< HEAD
           "401": {
             "$ref": "#/components/responses/401"
           },
+=======
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+>>>>>>> main
           "500": {
             "$ref": "#/components/responses/500"
           }
         }
+<<<<<<< HEAD
       }
     },
     "/auth/refresh": {
@@ -814,6 +1210,36 @@
           },
           "500": {
             "$ref": "#/components/responses/500"
+=======
+      },
+      "delete": {
+        "tags": ["Articles"],
+        "summary": "Delete an article by ID",
+        "operationId": "deleteArticle",
+        "description": "Delete an article by its ID",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The ID of the article to delete"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Contact deleted successfully"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+>>>>>>> main
           }
         }
       }
@@ -827,6 +1253,7 @@
       }
     },
     "schemas": {
+<<<<<<< HEAD
       "user": {
         "type": "object",
         "required": [
@@ -882,6 +1309,11 @@
           "ownerId",
           "date"
         ],
+=======
+      "articles": {
+        "type": "object",
+        "required": ["img", "title", "article", "rate", "ownerId", "date"],
+>>>>>>> main
         "properties": {
           "img": {
             "type": "string",
@@ -914,16 +1346,24 @@
     },
     "responses": {
       "400": {
+<<<<<<< HEAD
         "description": "Bad request response.",
+=======
+        "description": "Bad Request",
+>>>>>>> main
         "content": {
           "application/json": {
             "schema": {
               "type": "object",
+<<<<<<< HEAD
               "required": [
                 "status",
                 "message",
                 "data"
               ],
+=======
+              "required": ["status", "message", "data"],
+>>>>>>> main
               "properties": {
                 "status": {
                   "type": "integer",
@@ -931,6 +1371,7 @@
                 },
                 "message": {
                   "type": "string",
+<<<<<<< HEAD
                   "example": "HTTP error occurred"
                 },
                 "data": {
@@ -942,6 +1383,16 @@
                     "errorMessage": {
                       "type": "string",
                       "description": "Detailed error message."
+=======
+                  "example": "Required field is missing or invalid"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "errorMessage": {
+                      "type": "string",
+                      "example": "Validation failed: 'title' is required"
+>>>>>>> main
                     }
                   }
                 }
@@ -951,16 +1402,24 @@
         }
       },
       "401": {
+<<<<<<< HEAD
         "description": "Unauthorized error.",
+=======
+        "description": "Unauthorized error",
+>>>>>>> main
         "content": {
           "application/json": {
             "schema": {
               "type": "object",
+<<<<<<< HEAD
               "required": [
                 "status",
                 "message",
                 "data"
               ],
+=======
+              "required": ["status", "message", "data"],
+>>>>>>> main
               "properties": {
                 "status": {
                   "type": "integer",
@@ -968,6 +1427,7 @@
                 },
                 "message": {
                   "type": "string",
+<<<<<<< HEAD
                   "example": "HTTP error occurred"
                 },
                 "data": {
@@ -979,6 +1439,17 @@
                     "errorMessage": {
                       "type": "string",
                       "description": "Detailed error message."
+=======
+                  "example": "UnauthorizedError"
+                },
+                "data": {
+                  "type": "object",
+                  "required": ["message"],
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Access token expired"
+>>>>>>> main
                     }
                   }
                 }
@@ -988,16 +1459,24 @@
         }
       },
       "404": {
+<<<<<<< HEAD
         "description": "Not found response.",
+=======
+        "description": "Not found",
+>>>>>>> main
         "content": {
           "application/json": {
             "schema": {
               "type": "object",
+<<<<<<< HEAD
               "required": [
                 "status",
                 "message",
                 "data"
               ],
+=======
+              "required": ["status", "message", "data"],
+>>>>>>> main
               "properties": {
                 "status": {
                   "type": "integer",
@@ -1005,6 +1484,7 @@
                 },
                 "message": {
                   "type": "string",
+<<<<<<< HEAD
                   "example": "HTTP error occurred"
                 },
                 "data": {
@@ -1053,6 +1533,17 @@
                     "errorMessage": {
                       "type": "string",
                       "description": "Detailed error message."
+=======
+                  "example": "Not found"
+                },
+                "data": {
+                  "type": "object",
+                  "required": ["message"],
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Not found"
+>>>>>>> main
                     }
                   }
                 }
@@ -1062,16 +1553,24 @@
         }
       },
       "500": {
+<<<<<<< HEAD
         "description": "Server error.",
+=======
+        "description": "Internal Server Error",
+>>>>>>> main
         "content": {
           "application/json": {
             "schema": {
               "type": "object",
+<<<<<<< HEAD
               "required": [
                 "status",
                 "message",
                 "data"
               ],
+=======
+              "required": ["status", "message", "data"],
+>>>>>>> main
               "properties": {
                 "status": {
                   "type": "integer",
@@ -1083,6 +1582,7 @@
                 },
                 "data": {
                   "type": "object",
+<<<<<<< HEAD
                   "required": [
                     "errorMessage"
                   ],
@@ -1090,6 +1590,12 @@
                     "errorMessage": {
                       "type": "string",
                       "description": "Detailed error message."
+=======
+                  "properties": {
+                    "errorMessage": {
+                      "type": "string",
+                      "example": "MongoDB error occurred"
+>>>>>>> main
                     }
                   }
                 }
@@ -1100,4 +1606,8 @@
       }
     }
   }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> main

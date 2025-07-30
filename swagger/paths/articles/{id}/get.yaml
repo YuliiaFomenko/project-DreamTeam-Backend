@@ -1,0 +1,36 @@
+tags:
+  - Articles
+summary: Get article by id
+operationId: getArticleById
+description: 'Get article by id'
+security:
+  - bearerAuth: []
+parameters:
+  - in: path
+    name: id
+    required: true
+    schema:
+      type: string
+    description: The ID of the article to retrieve.
+responses:
+  '200':
+    description: Successfully found an article!
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - status
+            - message
+            - data
+          properties:
+            status:
+              type: integer
+              example: 200
+            message:
+              type: string
+              example: Successfully found an article!
+            data:
+              $ref: '../../../components/schemas/articles.yaml'
+  '404':
+    $ref: '../../../components/responses/404.yaml'

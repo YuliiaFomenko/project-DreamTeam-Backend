@@ -58,7 +58,7 @@ responses:
                 data:
                   type: array
                   items:
-                    $ref: ../../../../components/schemas/article.yaml
+                    $ref: ../../../../components/schemas/articles.yaml
                 page:
                   type: number
                   example: 2

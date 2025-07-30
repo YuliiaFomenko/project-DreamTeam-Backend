@@ -1,0 +1,92 @@
+tags:
+  - Articles
+summary: Update an article by ID
+operationId: updateArticle
+description: Update fields of an existing contact
+security:
+  - bearerAuth: []
+parameters:
+  - in: path
+    name: id
+    required: true
+    schema:
+      type: string
+    description: The ID of the article to update
+requestBody:
+  required: true
+  content:
+    multipart/form-data:
+      schema:
+        type: object
+        properties:
+          title:
+            type: string
+            example: 'My article'
+          article:
+            type: string
+            example: 'Full article content'
+          date:
+            type: string
+            format: date
+            example: '2025-07-29'
+          image:
+            type: string
+            format: binary
+responses:
+  '200':
+    description: Article updated successfully
+    content:
+      application/json:
+        schema:
+          type: object
+          required: [status, message, data]
+          properties:
+            status:
+              type: integer
+              example: 200
+            message:
+              type: string
+              example: Contact updated successfully.
+            data:
+              type: object
+              required:
+                - _id
+                - img
+                - title
+                - article
+                - rate
+                - ownerId
+                - date
+              properties:
+                _id:
+                  type: string
+                  format: uuid
+                  example: '60c72b2f9b1e8a5f8c8e6d45'
+                img:
+                  type: string
+                  example: 'https://res.cloudinary.com/demo/image/upload/v1623743883/sample.jpg'
+                title:
+                  type: string
+                  example: 'Updated title'
+                article:
+                  type: string
+                  example: 'Full updated content'
+                rate:
+                  type: number
+                  example: 0
+                ownerId:
+                  type: string
+                  format: uuid
+                  example: '60c72b2f9b1e8a5f8c8e6d22'
+                date:
+                  type: string
+                  format: date
+                  example: '2025-07-29'
+  '400':
+    $ref: '../../../components/responses/400.yaml'
+  '401':
+    $ref: '../../../components/responses/401.yaml'
+  '404':
+    $ref: '../../../components/responses/404.yaml'
+  '500':
+    $ref: '../../../components/responses/500.yaml'

@@ -48,6 +48,19 @@ paths:
   /bookmarks/remove/{articleId}:
     patch:
       $ref: ../swagger/paths/bookmarks/remove/{articleId}/patch.yaml
+  # Articles operations
+  /articles:
+    get:
+      $ref: ../swagger/paths/articles/get.yaml
+    post:
+      $ref: ../swagger/paths/articles/post.yaml
+  /articles/{id}:
+    get:
+      $ref: ../swagger/paths/articles/{id}/get.yaml
+    patch:
+      $ref: ../swagger/paths/articles/{id}/patch.yaml
+    delete:
+      $ref: ../swagger/paths/articles/{id}/delete.yaml
 components:
   securitySchemes:
     bearerAuth:
