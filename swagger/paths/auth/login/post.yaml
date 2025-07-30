@@ -40,10 +40,14 @@ responses:
               type: object
               required:
                 - accessToken
+                - currentUserId
               properties:
                 accessToken:
                   type: string
                   example: 'U21wdOfyoytZ8NY+E+A+Uz+4gbkMbkMn/LdBDgKo'
+                currentUserId:
+                  type: string
+                  example: '65e4decdd286b30065d54af9'
   '401':
     $ref: ../../../components/responses/401.yaml
   '500':

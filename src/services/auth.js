@@ -53,7 +53,7 @@ export const loginUser = async (payload) => {
     ...createSession(),
   });
 
-  return session;
+  return { session, userId: user._id };
 };
 // Refresh user's session
 export const refreshSession = async (sessionId, sessionToken) => {
@@ -78,7 +78,7 @@ export const refreshSession = async (sessionId, sessionToken) => {
     ...createSession(),
   });
 
-  return newSession;
+  return { session: newSession, userId: session.userId };
 };
 // Logout a user
 export const logoutUser = async (sessionId, sessionToken) => {

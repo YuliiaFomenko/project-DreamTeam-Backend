@@ -167,12 +167,17 @@
                     "data": {
                       "type": "object",
                       "required": [
-                        "accessToken"
+                        "accessToken",
+                        "currentUserId"
                       ],
                       "properties": {
                         "accessToken": {
                           "type": "string",
                           "example": "U21wdOfyoytZ8NY+E+A+Uz+4gbkMbkMn/LdBDgKo"
+                        },
+                        "currentUserId": {
+                          "type": "string",
+                          "example": "65e4decdd286b30065d54af9"
                         }
                       }
                     }
@@ -223,12 +228,17 @@
                     "data": {
                       "type": "object",
                       "required": [
-                        "accessToken"
+                        "accessToken",
+                        "currentUserId"
                       ],
                       "properties": {
                         "accessToken": {
                           "type": "string",
                           "example": "U21wdOfyoytZ8NY+E+A+Uz+4gbkMbkMn/LdBDgKo"
+                        },
+                        "currentUserId": {
+                          "type": "string",
+                          "example": "65e4decdd286b30065d54af9"
                         }
                       }
                     }
