@@ -836,11 +836,7 @@
         "summary": "Get list of articles",
         "operationId": "getAllArticles",
         "description": "Retrieve a paginated list of articles with optional filters",
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
+        "security": [],
         "parameters": [
           {
             "in": "query",
@@ -1082,11 +1078,7 @@
         "summary": "Get article by id",
         "operationId": "getArticleById",
         "description": "Get article by id",
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
+        "security": [],
         "parameters": [
           {
             "in": "path",
