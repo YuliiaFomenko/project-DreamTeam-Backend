@@ -1,0 +1,56 @@
+tags:
+  - Articles
+summary: Create a new article
+operationId: createArticle
+description: Create a new article
+security:
+  - bearerAuth: []
+requestBody:
+  required: true
+  content:
+    multipart/form-data:
+      schema:
+        type: object
+        required:
+          - img
+          - title
+          - article
+          - date
+        properties:
+          img:
+            type: string
+            format: binary
+            description: Image file to be uploaded
+          title:
+            type: string
+            example: My first article
+          article:
+            type: string
+            example: Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+              Donec a diam lectus. Sed sit amet ipsum mauris.
+          date:
+            type: string
+            format: date
+            example: 2025-07-29
+responses:
+  '201':
+    description: Successfully created an article!
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - status
+            - message
+            - data
+          properties:
+            status:
+              type: integer
+              example: 201
+            message:
+              type: string
+              example: Successfully created an article!
+            data:
+              $ref: '../../components/schemas/articles.yaml'
+  '400':
+    $ref: '../../components/responses/400.yaml'

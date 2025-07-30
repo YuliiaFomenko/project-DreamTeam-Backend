@@ -1,0 +1,103 @@
+tags:
+  - Articles
+summary: Get list of articles
+operationId: getAllArticles
+description: Retrieve a paginated list of articles with optional filters
+security:
+  - bearerAuth: []
+parameters:
+  - in: query
+    name: page
+    schema:
+      type: integer
+    example: 1
+    description: Page number for pagination.
+  - in: query
+    name: perPage
+    schema:
+      type: integer
+    example: 12
+    description: Number of articles per page.
+  - in: query
+    name: sortBy
+    schema:
+      type: string
+    example: _id
+    description: Field to sort by.
+  - in: query
+    name: sortOrder
+    schema:
+      type: string
+      enum: ['asc', 'desc']
+    example: asc
+  - in: query
+    name: minRate
+    schema:
+      type: number
+    example: 3
+    description: Minimum rating to filter by.
+  - in: query
+    name: maxRate
+    schema:
+      type: number
+    example: 9
+    description: Maximum rating to filter by.
+  - in: query
+    name: ownerId
+    schema:
+      type: string
+    example: 64f3c53dbb38c0d30ff87b49
+    description: ID of the article owner.
+  - in: query
+    name: title
+    schema:
+      type: string
+    example: My first article
+    description: Filter by partial match in the title.
+  - in: query
+    name: dateFrom
+    schema:
+      type: string
+      format: date
+    example: 2024-01-01
+    description: Start date to filter articles from.
+  - in: query
+    name: dateTo
+    schema:
+      type: string
+      format: date
+    example: 2024-12-31
+    description: End date to filter articles to.
+responses:
+  '200':
+    description: Successfully retrieved articles list!
+    content:
+      application/json:
+        schema:
+          type: object
+          required: [status, message, data]
+          properties:
+            status:
+              type: integer
+              example: 200
+            message:
+              type: string
+              example: Articles found successfully!
+            data:
+              type: array
+              items:
+                $ref: '../../components/schemas/articles.yaml'
+            totalPages:
+              type: integer
+              example: 5
+            currentPage:
+              type: integer
+              example: 1
+            perPage:
+              type: integer
+              example: 10
+            totalCount:
+              type: integer
+              example: 40
+  '404':
+    $ref: '../../components/responses/404.yaml'

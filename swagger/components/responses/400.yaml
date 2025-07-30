@@ -1,4 +1,4 @@
-description: Not found response.
+description: Bad request response.
 content:
   application/json:
     schema:
@@ -10,7 +10,7 @@ content:
       properties:
         status:
           type: integer
-          example: 404
+          example: 400
         message:
           type: string
           example: 'HTTP error occurred'

@@ -1,1 +1,642 @@
-{}
+{
+  "openapi": "3.1.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Harmoniq API",
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "description": "This is a documentation of Harmoniq API"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000"
+    },
+    {
+      "url": "https://project-dreamteam-backend.onrender.com"
+    }
+  ],
+  "tags": [
+    {
+      "name": "User",
+      "description": "User operations."
+    },
+    {
+      "name": "Auth",
+      "description": "Auth operations."
+    },
+    {
+      "name": "Articles",
+      "description": "Operations with articles."
+    }
+  ],
+  "paths": {
+    "/articles": {
+      "get": {
+        "tags": ["Articles"],
+        "summary": "Get list of articles",
+        "operationId": "getAllArticles",
+        "description": "Retrieve a paginated list of articles with optional filters",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "schema": {
+              "type": "integer"
+            },
+            "example": 1,
+            "description": "Page number for pagination."
+          },
+          {
+            "in": "query",
+            "name": "perPage",
+            "schema": {
+              "type": "integer"
+            },
+            "example": 12,
+            "description": "Number of articles per page."
+          },
+          {
+            "in": "query",
+            "name": "sortBy",
+            "schema": {
+              "type": "string"
+            },
+            "example": "_id",
+            "description": "Field to sort by."
+          },
+          {
+            "in": "query",
+            "name": "sortOrder",
+            "schema": {
+              "type": "string",
+              "enum": ["asc", "desc"]
+            },
+            "example": "asc"
+          },
+          {
+            "in": "query",
+            "name": "minRate",
+            "schema": {
+              "type": "number"
+            },
+            "example": 3,
+            "description": "Minimum rating to filter by."
+          },
+          {
+            "in": "query",
+            "name": "maxRate",
+            "schema": {
+              "type": "number"
+            },
+            "example": 9,
+            "description": "Maximum rating to filter by."
+          },
+          {
+            "in": "query",
+            "name": "ownerId",
+            "schema": {
+              "type": "string"
+            },
+            "example": "64f3c53dbb38c0d30ff87b49",
+            "description": "ID of the article owner."
+          },
+          {
+            "in": "query",
+            "name": "title",
+            "schema": {
+              "type": "string"
+            },
+            "example": "My first article",
+            "description": "Filter by partial match in the title."
+          },
+          {
+            "in": "query",
+            "name": "dateFrom",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            },
+            "example": "2024-01-01",
+            "description": "Start date to filter articles from."
+          },
+          {
+            "in": "query",
+            "name": "dateTo",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            },
+            "example": "2024-12-31",
+            "description": "End date to filter articles to."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved articles list!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["status", "message", "data"],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Articles found successfully!"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/articles"
+                      }
+                    },
+                    "totalPages": {
+                      "type": "integer",
+                      "example": 5
+                    },
+                    "currentPage": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "perPage": {
+                      "type": "integer",
+                      "example": 10
+                    },
+                    "totalCount": {
+                      "type": "integer",
+                      "example": 40
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Articles"],
+        "summary": "Create a new article",
+        "operationId": "createArticle",
+        "description": "Create a new article",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": ["img", "title", "article", "date"],
+                "properties": {
+                  "img": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "Image file to be uploaded"
+                  },
+                  "title": {
+                    "type": "string",
+                    "example": "My first article"
+                  },
+                  "article": {
+                    "type": "string",
+                    "example": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris."
+                  },
+                  "date": {
+                    "type": "string",
+                    "format": "date",
+                    "example": "2025-07-29"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successfully created an article!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["status", "message", "data"],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 201
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully created an article!"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/articles"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          }
+        }
+      }
+    },
+    "/articles/{id}": {
+      "get": {
+        "tags": ["Articles"],
+        "summary": "Get article by id",
+        "operationId": "getArticleById",
+        "description": "Get article by id",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The ID of the article to retrieve."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully found an article!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["status", "message", "data"],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully found an article!"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/articles"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        }
+      },
+      "patch": {
+        "tags": ["Articles"],
+        "summary": "Update an article by ID",
+        "operationId": "updateArticle",
+        "description": "Update fields of an existing contact",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The ID of the article to update"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "example": "My article"
+                  },
+                  "article": {
+                    "type": "string",
+                    "example": "Full article content"
+                  },
+                  "date": {
+                    "type": "string",
+                    "format": "date",
+                    "example": "2025-07-29"
+                  },
+                  "image": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Article updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["status", "message", "data"],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Contact updated successfully."
+                    },
+                    "data": {
+                      "type": "object",
+                      "required": [
+                        "_id",
+                        "img",
+                        "title",
+                        "article",
+                        "rate",
+                        "ownerId",
+                        "date"
+                      ],
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "format": "uuid",
+                          "example": "60c72b2f9b1e8a5f8c8e6d45"
+                        },
+                        "img": {
+                          "type": "string",
+                          "example": "https://res.cloudinary.com/demo/image/upload/v1623743883/sample.jpg"
+                        },
+                        "title": {
+                          "type": "string",
+                          "example": "Updated title"
+                        },
+                        "article": {
+                          "type": "string",
+                          "example": "Full updated content"
+                        },
+                        "rate": {
+                          "type": "number",
+                          "example": 0
+                        },
+                        "ownerId": {
+                          "type": "string",
+                          "format": "uuid",
+                          "example": "60c72b2f9b1e8a5f8c8e6d22"
+                        },
+                        "date": {
+                          "type": "string",
+                          "format": "date",
+                          "example": "2025-07-29"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Articles"],
+        "summary": "Delete an article by ID",
+        "operationId": "deleteArticle",
+        "description": "Delete an article by its ID",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The ID of the article to delete"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Contact deleted successfully"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    },
+    "schemas": {
+      "articles": {
+        "type": "object",
+        "required": ["img", "title", "article", "rate", "ownerId", "date"],
+        "properties": {
+          "img": {
+            "type": "string",
+            "format": "uri",
+            "example": "https://res.cloudinary.com/uqwgdu/image/upload/image.png"
+          },
+          "title": {
+            "type": "string",
+            "example": "My first article"
+          },
+          "article": {
+            "type": "string",
+            "example": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris."
+          },
+          "rate": {
+            "type": "number",
+            "example": "10"
+          },
+          "ownerId": {
+            "type": "string",
+            "example": "64f3c53dbb38c0d30ff87b49"
+          },
+          "date": {
+            "type": "string",
+            "format": "date",
+            "example": "2024-08-23"
+          }
+        }
+      }
+    },
+    "responses": {
+      "400": {
+        "description": "Bad Request",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": ["status", "message", "data"],
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 400
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Required field is missing or invalid"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "errorMessage": {
+                      "type": "string",
+                      "example": "Validation failed: 'title' is required"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "401": {
+        "description": "Unauthorized error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": ["status", "message", "data"],
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 401
+                },
+                "message": {
+                  "type": "string",
+                  "example": "UnauthorizedError"
+                },
+                "data": {
+                  "type": "object",
+                  "required": ["message"],
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Access token expired"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "404": {
+        "description": "Not found",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": ["status", "message", "data"],
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 404
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Not found"
+                },
+                "data": {
+                  "type": "object",
+                  "required": ["message"],
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "500": {
+        "description": "Internal Server Error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": ["status", "message", "data"],
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 500
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Something went wrong"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "errorMessage": {
+                      "type": "string",
+                      "example": "MongoDB error occurred"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
