@@ -31,7 +31,9 @@
   "paths": {
     "/auth/register": {
       "post": {
-        "tags": ["Auth"],
+        "tags": [
+          "Auth"
+        ],
         "summary": "Register a new user.",
         "operationId": "authRegister",
         "description": "Registers a new user with the provided details.",
@@ -41,7 +43,11 @@
             "multipart/form-data": {
               "schema": {
                 "type": "object",
-                "required": ["name", "email", "password"],
+                "required": [
+                  "name",
+                  "email",
+                  "password"
+                ],
                 "properties": {
                   "name": {
                     "description": "User's name.",
@@ -75,7 +81,11 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "required": ["status", "message", "data"],
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
                   "properties": {
                     "status": {
                       "type": "integer",
@@ -105,7 +115,9 @@
     },
     "/auth/login": {
       "post": {
-        "tags": ["Auth"],
+        "tags": [
+          "Auth"
+        ],
         "summary": "Log in a user.",
         "operationId": "authLogin",
         "description": "Logs in a user and returns an access token.",
@@ -138,7 +150,11 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "required": ["status", "message", "data"],
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
                   "properties": {
                     "status": {
                       "type": "integer",
@@ -150,7 +166,10 @@
                     },
                     "data": {
                       "type": "object",
-                      "required": ["accessToken", "currentUserId"],
+                      "required": [
+                        "accessToken",
+                        "currentUserId"
+                      ],
                       "properties": {
                         "accessToken": {
                           "type": "string",
@@ -178,7 +197,9 @@
     },
     "/auth/refresh": {
       "get": {
-        "tags": ["Auth"],
+        "tags": [
+          "Auth"
+        ],
         "summary": "Refresh user's session.",
         "operationId": "authRefresh",
         "description": "Refreshes the user's session by generating a new access token.",
@@ -190,7 +211,11 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "required": ["status", "message", "data"],
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
                   "properties": {
                     "status": {
                       "type": "integer",
@@ -202,7 +227,10 @@
                     },
                     "data": {
                       "type": "object",
-                      "required": ["accessToken", "currentUserId"],
+                      "required": [
+                        "accessToken",
+                        "currentUserId"
+                      ],
                       "properties": {
                         "accessToken": {
                           "type": "string",
@@ -230,7 +258,9 @@
     },
     "/auth/logout": {
       "post": {
-        "tags": ["Auth"],
+        "tags": [
+          "Auth"
+        ],
         "summary": "Log out a user.",
         "operationId": "authLogout",
         "description": "Logs out a user.",
@@ -247,7 +277,9 @@
     },
     "/top-authors": {
       "get": {
-        "tags": ["User"],
+        "tags": [
+          "User"
+        ],
         "summary": "Get top authors.",
         "operationId": "getTopAuthors",
         "description": "Retrieve a list of users who have at least one article written sorted by articlesAmount descending.",
@@ -281,7 +313,11 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "required": ["status", "message", "data"],
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
                   "properties": {
                     "status": {
                       "type": "integer",
@@ -351,7 +387,9 @@
     },
     "/users/{userId}": {
       "get": {
-        "tags": ["User"],
+        "tags": [
+          "User"
+        ],
         "summary": "Get user by ID.",
         "operationId": "getUserById",
         "description": "Retrieve a user by their unique ID.",
@@ -375,7 +413,11 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "required": ["status", "message", "data"],
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
                   "properties": {
                     "status": {
                       "type": "integer",
@@ -408,7 +450,9 @@
     },
     "/users/{userId}/articles": {
       "get": {
-        "tags": ["User"],
+        "tags": [
+          "User"
+        ],
         "summary": "Get all user's articles.",
         "operationId": "getUserArticles",
         "description": "Retrieve a list of articles written by a specific user.",
@@ -452,7 +496,11 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "required": ["status", "message", "data"],
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
                   "properties": {
                     "status": {
                       "type": "integer",
@@ -525,7 +573,9 @@
     },
     "/bookmarks": {
       "get": {
-        "tags": ["User"],
+        "tags": [
+          "User"
+        ],
         "summary": "Get all saved articles.",
         "operationId": "getBookmarks",
         "description": "Populate all currently logged-in user's bookmarks from articles collection with pagination option.",
@@ -563,7 +613,11 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "required": ["status", "message", "data"],
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
                   "properties": {
                     "status": {
                       "type": "integer",
@@ -636,7 +690,9 @@
     },
     "/bookmarks/add/{articleId}": {
       "patch": {
-        "tags": ["User"],
+        "tags": [
+          "User"
+        ],
         "summary": "Add the article to \"saved\".",
         "operationId": "addBookmark",
         "description": "Adds an article to the user's bookmarks and increments article's rate.",
@@ -664,7 +720,11 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "required": ["status", "message", "data"],
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
                   "properties": {
                     "status": {
                       "type": "integer",
@@ -700,7 +760,9 @@
     },
     "/bookmarks/remove/{articleId}": {
       "patch": {
-        "tags": ["User"],
+        "tags": [
+          "User"
+        ],
         "summary": "Remove the article from \"saved\".",
         "operationId": "removeBookmark",
         "description": "Removes an article from the user's bookmarks and decrements article's rate.",
@@ -728,7 +790,11 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "required": ["status", "message", "data"],
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
                   "properties": {
                     "status": {
                       "type": "integer",
@@ -764,15 +830,13 @@
     },
     "/articles": {
       "get": {
-        "tags": ["Articles"],
+        "tags": [
+          "Articles"
+        ],
         "summary": "Get list of articles",
         "operationId": "getAllArticles",
         "description": "Retrieve a paginated list of articles with optional filters",
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
+        "security": [],
         "parameters": [
           {
             "in": "query",
@@ -806,7 +870,10 @@
             "name": "sortOrder",
             "schema": {
               "type": "string",
-              "enum": ["asc", "desc"]
+              "enum": [
+                "asc",
+                "desc"
+              ]
             },
             "example": "asc"
           },
@@ -874,7 +941,11 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "required": ["status", "message", "data"],
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
                   "properties": {
                     "status": {
                       "type": "integer",
@@ -917,7 +988,9 @@
         }
       },
       "post": {
-        "tags": ["Articles"],
+        "tags": [
+          "Articles"
+        ],
         "summary": "Create a new article",
         "operationId": "createArticle",
         "description": "Create a new article",
@@ -932,7 +1005,12 @@
             "multipart/form-data": {
               "schema": {
                 "type": "object",
-                "required": ["img", "title", "article", "date"],
+                "required": [
+                  "img",
+                  "title",
+                  "article",
+                  "date"
+                ],
                 "properties": {
                   "img": {
                     "type": "string",
@@ -964,7 +1042,11 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "required": ["status", "message", "data"],
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
                   "properties": {
                     "status": {
                       "type": "integer",
@@ -990,15 +1072,13 @@
     },
     "/articles/{id}": {
       "get": {
-        "tags": ["Articles"],
+        "tags": [
+          "Articles"
+        ],
         "summary": "Get article by id",
         "operationId": "getArticleById",
         "description": "Get article by id",
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
+        "security": [],
         "parameters": [
           {
             "in": "path",
@@ -1017,7 +1097,11 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "required": ["status", "message", "data"],
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
                   "properties": {
                     "status": {
                       "type": "integer",
@@ -1041,7 +1125,9 @@
         }
       },
       "patch": {
-        "tags": ["Articles"],
+        "tags": [
+          "Articles"
+        ],
         "summary": "Update an article by ID",
         "operationId": "updateArticle",
         "description": "Update fields of an existing contact",
@@ -1097,7 +1183,11 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "required": ["status", "message", "data"],
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
                   "properties": {
                     "status": {
                       "type": "integer",
@@ -1172,7 +1262,9 @@
         }
       },
       "delete": {
-        "tags": ["Articles"],
+        "tags": [
+          "Articles"
+        ],
         "summary": "Delete an article by ID",
         "operationId": "deleteArticle",
         "description": "Delete an article by its ID",
@@ -1213,7 +1305,13 @@
     "schemas": {
       "user": {
         "type": "object",
-        "required": ["name", "email", "avatarUrl", "savedArticles", "_id"],
+        "required": [
+          "name",
+          "email",
+          "avatarUrl",
+          "savedArticles",
+          "_id"
+        ],
         "properties": {
           "name": {
             "description": "User's name",
@@ -1247,7 +1345,14 @@
       },
       "articles": {
         "type": "object",
-        "required": ["img", "title", "article", "rate", "ownerId", "date"],
+        "required": [
+          "img",
+          "title",
+          "article",
+          "rate",
+          "ownerId",
+          "date"
+        ],
         "properties": {
           "img": {
             "type": "string",
@@ -1285,7 +1390,11 @@
           "application/json": {
             "schema": {
               "type": "object",
-              "required": ["status", "message", "data"],
+              "required": [
+                "status",
+                "message",
+                "data"
+              ],
               "properties": {
                 "status": {
                   "type": "integer",
@@ -1297,7 +1406,9 @@
                 },
                 "data": {
                   "type": "object",
-                  "required": ["errorMessage"],
+                  "required": [
+                    "errorMessage"
+                  ],
                   "properties": {
                     "errorMessage": {
                       "type": "string",
@@ -1316,7 +1427,11 @@
           "application/json": {
             "schema": {
               "type": "object",
-              "required": ["status", "message", "data"],
+              "required": [
+                "status",
+                "message",
+                "data"
+              ],
               "properties": {
                 "status": {
                   "type": "integer",
@@ -1328,7 +1443,9 @@
                 },
                 "data": {
                   "type": "object",
-                  "required": ["errorMessage"],
+                  "required": [
+                    "errorMessage"
+                  ],
                   "properties": {
                     "errorMessage": {
                       "type": "string",
@@ -1347,7 +1464,11 @@
           "application/json": {
             "schema": {
               "type": "object",
-              "required": ["status", "message", "data"],
+              "required": [
+                "status",
+                "message",
+                "data"
+              ],
               "properties": {
                 "status": {
                   "type": "integer",
@@ -1359,7 +1480,9 @@
                 },
                 "data": {
                   "type": "object",
-                  "required": ["errorMessage"],
+                  "required": [
+                    "errorMessage"
+                  ],
                   "properties": {
                     "errorMessage": {
                       "type": "string",
@@ -1378,7 +1501,11 @@
           "application/json": {
             "schema": {
               "type": "object",
-              "required": ["status", "message", "data"],
+              "required": [
+                "status",
+                "message",
+                "data"
+              ],
               "properties": {
                 "status": {
                   "type": "integer",
@@ -1390,7 +1517,9 @@
                 },
                 "data": {
                   "type": "object",
-                  "required": ["errorMessage"],
+                  "required": [
+                    "errorMessage"
+                  ],
                   "properties": {
                     "errorMessage": {
                       "type": "string",
@@ -1409,7 +1538,11 @@
           "application/json": {
             "schema": {
               "type": "object",
-              "required": ["status", "message", "data"],
+              "required": [
+                "status",
+                "message",
+                "data"
+              ],
               "properties": {
                 "status": {
                   "type": "integer",
@@ -1421,7 +1554,9 @@
                 },
                 "data": {
                   "type": "object",
-                  "required": ["errorMessage"],
+                  "required": [
+                    "errorMessage"
+                  ],
                   "properties": {
                     "errorMessage": {
                       "type": "string",

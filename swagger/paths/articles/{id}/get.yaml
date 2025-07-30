@@ -3,8 +3,7 @@ tags:
 summary: Get article by id
 operationId: getArticleById
 description: 'Get article by id'
-security:
-  - bearerAuth: []
+security: []
 parameters:
   - in: path
     name: id
