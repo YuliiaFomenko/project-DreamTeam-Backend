@@ -4,6 +4,7 @@ import {
   createArticle,
   updateArticle,
   deleteArticle,
+  getRandomArticles,
 } from '../services/articles.js';
 import createHttpError from 'http-errors';
 import { saveFile } from '../utils/saveFile.js';
@@ -121,6 +122,20 @@ export const deleteArticleController = async (req, res, next) => {
     }
 
     res.status(204).send();
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const getRandomArticlesController = async (req, res, next) => {
+  try {
+    const randomArticles = await getRandomArticles();
+
+    res.status(200).json({
+      status: 200,
+      message: 'Successfully got random articles!',
+      data: randomArticles,
+    });
   } catch (err) {
     next(err);
   }

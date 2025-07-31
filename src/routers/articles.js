@@ -5,6 +5,7 @@ import {
   createArticleController,
   patchArticleController,
   deleteArticleController,
+  getRandomArticlesController,
 } from '../controllers/articles.js';
 import { validateBody } from '../middlewares/validateBody.js';
 import { createArticleSchema } from '../validation/createArticleValidationSchema.js';
@@ -15,6 +16,9 @@ import { upload } from '../middlewares/uploadFiles.js';
 const articleRouter = Router();
 
 articleRouter.get('/articles', getAllArticlesController);
+
+articleRouter.get('/articles/random', getRandomArticlesController);
+
 articleRouter.get(
   '/articles/:articleId',
   isValidId('articleId'),
