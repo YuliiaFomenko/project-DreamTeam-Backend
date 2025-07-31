@@ -3,6 +3,7 @@ tags:
 summary: Get 3 random articles
 operationId: getRandomArticles
 description: Returns 3 random articles.
+security: []
 responses:
   '200':
     description: Successfully got 3 random articles!
@@ -20,6 +21,32 @@ responses:
             data:
               type: array
               items:
-                $ref: '../../components/schemas/articles.yaml'
+                $ref: ../../components/schemas/articles.yaml
+          required:
+            - status
+            - message
+            - data
+        example:
+          status: 200
+          message: Successfully got random articles
+          data:
+            - img: 'https://res.cloudinary.com/uqwgdu/image/upload/image1.png'
+              title: 'Article One'
+              article: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
+              rate: 5
+              ownerId: '64f3c53dbb38c0d30ff87b49'
+              date: '2024-08-23'
+            - img: 'https://res.cloudinary.com/uqwgdu/image/upload/image2.png'
+              title: 'Article Two'
+              article: 'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+              rate: 8
+              ownerId: '64f3c53dbb38c0d30ff87b50'
+              date: '2024-09-15'
+            - img: 'https://res.cloudinary.com/uqwgdu/image/upload/image3.png'
+              title: 'Article Three'
+              article: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.'
+              rate: 7
+              ownerId: '64f3c53dbb38c0d30ff87b51'
+              date: '2024-10-01'
   '500':
     $ref: '../../components/responses/500.yaml'

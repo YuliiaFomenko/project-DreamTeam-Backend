@@ -54,6 +54,9 @@ paths:
       $ref: ../swagger/paths/articles/get.yaml
     post:
       $ref: ../swagger/paths/articles/post.yaml
+  /articles/random:
+    get:
+      $ref: ../swagger/paths/articles/getRandom.yaml
   /articles/{id}:
     get:
       $ref: ../swagger/paths/articles/{id}/get.yaml
