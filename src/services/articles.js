@@ -91,3 +91,7 @@ export const deleteArticle = async (articleId) => {
 
   return article;
 };
+
+export const getRandomArticles = async () => {
+  return await Article.aggregate([{ $sample: { size: 3 } }]);
+};
