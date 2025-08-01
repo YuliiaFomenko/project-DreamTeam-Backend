@@ -53,7 +53,7 @@ export const loginUser = async (payload) => {
     ...createSession(),
   });
 
-  return { session, userId: user._id };
+  return { session, user };
 };
 // Refresh user's session
 export const refreshSession = async (sessionId, sessionToken) => {
@@ -77,8 +77,8 @@ export const refreshSession = async (sessionId, sessionToken) => {
     userId: session.userId,
     ...createSession(),
   });
-
-  return { session: newSession, userId: session.userId };
+  const user = await Users.findOne({ _id: session.userId });
+  return { session: newSession, user };
 };
 // Logout a user
 export const logoutUser = async (sessionId, sessionToken) => {
