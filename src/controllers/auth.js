@@ -72,8 +72,16 @@ export const logoutUserController = async (req, res) => {
 
   await logoutUser(sessionId, sessionToken);
 
-  res.clearCookie('sessionId');
-  res.clearCookie('sessionToken');
+  res.clearCookie('sessionId', {
+    httpOnly: true,
+    secure: true,
+    sameSite: 'None',
+  });
+  res.clearCookie('sessionToken', {
+    httpOnly: true,
+    secure: true,
+    sameSite: 'None',
+  });
 
   res.status(204).send();
 };
