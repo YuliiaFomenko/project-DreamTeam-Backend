@@ -13,7 +13,15 @@ import { setupSwagger } from './middlewares/swagger.js';
 export const setupServer = () => {
   const app = express();
 
-  app.use(cors());
+  app.use(
+    cors({
+      origin: [
+        'http://localhost:5173',
+        'https://project-dream-team-frontend.vercel.app/',
+      ],
+      credentials: true,
+    }),
+  );
   app.use(
     pino({
       transport: {
@@ -30,15 +38,14 @@ export const setupServer = () => {
   app.use('/uploads', express.static(PERMANENT_UPLOAD_DIR));
 
   app.use(router);
-  
+
   app.use(notFoundHandler);
-  
+
   app.use(errorHandlerMiddleware);
-  
+
   const PORT = getEnvVar(ENV_VARS.PORT, 3000);
 
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
   });
-
 };
