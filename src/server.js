@@ -17,7 +17,7 @@ export const setupServer = () => {
     cors({
       origin: [
         'http://localhost:5173',
-        'https://project-dream-team-frontend.vercel.app/',
+        'https://project-dream-team-frontend.vercel.app',
       ],
       credentials: true,
     }),
