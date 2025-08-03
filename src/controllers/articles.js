@@ -94,7 +94,13 @@ export const createArticleController = async (req, res, next) => {
 export const patchArticleController = async (req, res, next) => {
   try {
     const { articleId } = req.params;
-    const result = await updateArticle(articleId, req.body);
+    const updatePayload = { ...req.body };
+
+    if (req.file) {
+      const savedFilePath = await saveFile(req.file);
+      updatePayload.img = savedFilePath;
+    }
+    const result = await updateArticle(articleId, updatePayload);
 
     if (!result) {
       next(createHttpError(404, 'Article not found'));

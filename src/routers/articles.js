@@ -28,7 +28,7 @@ articleRouter.get(
 articleRouter.post(
   '/articles',
   authenticate,
-  upload.single('image'),
+  upload.single('img'),
   validateBody(createArticleSchema),
   createArticleController,
 );
@@ -36,6 +36,7 @@ articleRouter.patch(
   '/articles/:articleId',
   isValidId('articleId'),
   authenticate,
+  upload.single('img'),
   patchArticleController,
 );
 articleRouter.delete(
