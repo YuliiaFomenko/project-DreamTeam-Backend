@@ -1266,7 +1266,7 @@
                     "format": "date",
                     "example": "2025-07-29"
                   },
-                  "image": {
+                  "img": {
                     "type": "string",
                     "format": "binary"
                   }

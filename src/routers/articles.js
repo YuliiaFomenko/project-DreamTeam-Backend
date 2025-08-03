@@ -28,7 +28,7 @@ articleRouter.get(
 articleRouter.post(
   '/articles',
   authenticate,
-  upload.single('image'),
+  upload.single('img'),
   validateBody(createArticleSchema),
   createArticleController,
 );
