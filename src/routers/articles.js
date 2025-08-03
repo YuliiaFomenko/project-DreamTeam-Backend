@@ -36,6 +36,7 @@ articleRouter.patch(
   '/articles/:articleId',
   isValidId('articleId'),
   authenticate,
+  upload.single('img'),
   patchArticleController,
 );
 articleRouter.delete(
