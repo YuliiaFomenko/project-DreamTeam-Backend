@@ -69,8 +69,8 @@ export const getUserArticles = async (userId, queryParams) => {
   const articlesCount = await Article.countDocuments({
     ownerId: userId,
   });
-  if (articlesCount === 0)
-    throw createHttpError(404, 'No articles found for user with ID:' + userId);
+  // if (articlesCount === 0)
+  //   throw createHttpError(404, 'No articles found for user with ID:' + userId);
 
   const paginationData = createPaginationMetaData(page, perPage, articlesCount);
   const articles = await articlesQuery
