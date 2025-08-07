@@ -88,8 +88,8 @@ export const getUserArticles = async (userId, queryParams) => {
 export const getUserBookmarks = async (userId, queryParams) => {
   const user = await Users.findOne({ _id: userId }).populate('savedArticles');
   if (!user) throw createHttpError(404, 'User not found');
-  if (!Array.isArray(user.savedArticles) || user.savedArticles.length === 0)
-    throw createHttpError(404, 'No bookmarks found for logged in user');
+  // if (!Array.isArray(user.savedArticles) || user.savedArticles.length === 0)
+  //   throw createHttpError(404, 'No bookmarks found for logged in user');
 
   const { page, perPage } = queryParams;
   const paginationData = createPaginationMetaData(
